@@ -1,8 +1,7 @@
 package web.dao;
 
-import org.springframework.stereotype.*;
 import web.entity.User;
-
+import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
@@ -11,28 +10,33 @@ import java.util.List;
 public class UserDaoImpl implements UserDao {
 
     @PersistenceContext
-    private EntityManager em;
-
-    @Override
-    public List<User> allUsers() {
-        return em.createQuery("SELECT u FROM User u", User.class).getResultList();
-    }
+    private EntityManager entityManager;
 
     @Override
     public void addUser(User user) {
-        em.persist(user);
+        entityManager.persist(user);
     }
 
     @Override
-    public void removeUser(Long id) {
-        User user = em.find(User.class, id);
-        em.remove(user);
+    public List<User> getUsers() {
+        return entityManager.createQuery("FROM User", User.class).getResultList();
+    }
+
+    @Override
+    public User getUserById(long id) {
+        return entityManager.find(User.class, id);
     }
 
     @Override
     public void updateUser(User user) {
-        User user1 = em.find(User.class, user.getId());
-        user.setName(user1.getName());
-        user.setSurname(user1.getSurname());
+        User userToBeUpdate = entityManager.find(User.class, user.getId());
+        userToBeUpdate.setName(user.getName());
+        userToBeUpdate.setSurname(user.getSurname());
+    }
+
+    @Override
+    public void deleteUser(long id) {
+        User user = entityManager.find(User.class, id);
+        entityManager.remove(user);
     }
 }

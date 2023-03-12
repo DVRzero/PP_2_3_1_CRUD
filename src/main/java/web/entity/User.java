@@ -3,27 +3,28 @@ package web.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name="Users")
+@Table(name = "users")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     private String name;
 
     private String surname;
 
-    public User() {    }
+    public User() {}
     public User(String name, String surname) {
         this.name = name;
         this.surname = surname;
+
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -39,14 +40,5 @@ public class User {
     }
     public void setSurname(String surname) {
         this.surname = surname;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                '}';
     }
 }
